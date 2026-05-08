@@ -2,8 +2,6 @@
 
 追蹤清心福全飲品價格，觀察 7/26 漲價後的個人通膨率。
 
-**Live Demo:** https://khanhtran2005.github.io/boba-inflation-monitor/
-
 ---
 
 ## 功能 Features
