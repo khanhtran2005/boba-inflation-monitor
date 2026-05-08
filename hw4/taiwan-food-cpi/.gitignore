@@ -1,3 +1,5 @@
 node_modules/
 db/*.db
 .env
+.claude/
+package-lock.json

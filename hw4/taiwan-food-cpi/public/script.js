@@ -1,13 +1,13 @@
 const drinkInfo = {
-    '珍珠奶茶': { emoji: '🧋', bg: '#FDF3E7', color: '#92400E', label: 'Pearl Milk Tea' },
-    '梅子綠茶': { emoji: '🍵', bg: '#ECFDF5', color: '#065F46', label: 'Plum Green Tea' },
-    '優多綠茶': { emoji: '🍶', bg: '#F0FDF4', color: '#166534', label: 'Yogurt Green Tea' },
-    '原鄉四季': { emoji: '🍃', bg: '#F0FDFA', color: '#115E59', label: 'Four Seasons Tea' },
-    '冰淇淋紅茶': { emoji: '🍦', bg: '#FFF7ED', color: '#9A3412', label: 'Ice Cream Black Tea' },
+    '珍珠奶茶':  { emoji: '🧋', bg: '#FDF3E7', label: 'Pearl Milk Tea' },
+    '梅子綠茶':  { emoji: '🍵', bg: '#ECFDF5', label: 'Plum Green Tea' },
+    '優多綠茶':  { emoji: '🍶', bg: '#F0FDF4', label: 'Yogurt Green Tea' },
+    '原鄉四季':  { emoji: '🍃', bg: '#F0FDFA', label: 'Four Seasons Tea' },
+    '冰淇淋紅茶': { emoji: '🍦', bg: '#FFF7ED', label: 'Ice Cream Black Tea' },
 };
 
 function getDrinkInfo(name) {
-    return drinkInfo[name] || { emoji: '🥤', bg: '#E8F5EE', color: '#00873C', label: name };
+    return drinkInfo[name] || { emoji: '🥤', bg: '#E8F5EE', label: name };
 }
 
 // ── Floating boba bubbles in hero ───────────
