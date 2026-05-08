@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>清心福全 | Price Monitor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+
+    <!-- ══ HERO — full-width ══ -->
+    <header class="hero">
+        <div class="bubbles-container"></div>
+        <div class="hero-badge">🥤 Price Tracker</div>
+        <h1>清心福全<span class="highlight">通膨觀測站</span></h1>
+        <p>Track bubble tea prices after the 7/26 price increase — monitor your personal inflation rate!</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <span id="stat-count">—</span>
+                <label>Records 紀錄</label>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <span id="stat-items">—</span>
+                <label>Drinks 飲品</label>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 70" preserveAspectRatio="none">
+                <path fill="#D6EFE1" d="M0,35 C240,65 480,5 720,35 C960,65 1200,5 1440,35 L1440,70 L0,70 Z"/>
+            </svg>
+        </div>
+    </header>
+
+    <!-- ══ MAIN CONTENT ══ -->
+    <div class="app-container">
+
+        <section class="drinks-showcase card">
+            <h2><span class="icon">🥤</span> Our Drinks 精選飲品</h2>
+            <div id="drinks-grid" class="drinks-grid">
+                <div class="drink-skeleton"></div>
+                <div class="drink-skeleton"></div>
+                <div class="drink-skeleton"></div>
+                <div class="drink-skeleton"></div>
+                <div class="drink-skeleton"></div>
+            </div>
+        </section>
+
+        <div class="main-content">
+            <section class="card input-section">
+                <h2><span class="icon">➕</span> Add New Record 新增紀錄</h2>
+                <form id="price-form">
+                    <div class="form-group">
+                        <label for="date">日期 <span class="label-en">Date</span></label>
+                        <input type="date" id="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item_name">飲品名稱 <span class="label-en">Drink Name</span></label>
+                        <input type="text" id="item_name" placeholder="e.g. 珍珠奶茶" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">價格 <span class="label-en">Price (NT$)</span></label>
+                        <input type="number" id="price" placeholder="e.g. 55" min="1" required>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <span class="btn-text">Submit 送出</span>
+                        <span class="btn-icon">→</span>
+                    </button>
+                </form>
+            </section>
+
+            <section class="card data-section">
+                <div class="data-header">
+                    <h2><span class="icon">📊</span> Price History 歷史物價</h2>
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="searchInput" placeholder="Search drinks 搜尋飲品...">
+                    </div>
+                </div>
+
+                <div id="loading-spinner" class="spinner-container">
+                    <div class="spinner"></div>
+                </div>
+
+                <div class="table-container" id="table-container" style="display:none">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>日期 / Date</th>
+                                <th>飲品 / Drink</th>
+                                <th>價格 / Price</th>
+                                <th>操作 / Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+    </div><!-- /.app-container -->
+
+    <div id="toast" class="toast"></div>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh_tw.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "taiwan-food-cpi",
+  "version": "1.0.0",
+  "description": "台灣校園美食物價觀測站",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "init-db": "node db.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "sqlite3": "^5.1.7"
+  }
+}

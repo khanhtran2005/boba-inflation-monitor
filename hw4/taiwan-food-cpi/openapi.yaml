@@ -1,0 +1,180 @@
+openapi: 3.0.3
+info:
+  title: 清心福全通膨觀測站 API
+  description: >
+    Web API để theo dõi biến động giá đồ uống của chuỗi cửa hàng trà sữa 清心福全 (Chingshin).
+    Backend sử dụng Express.js, lưu trữ dữ liệu bằng SQLite.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+tags:
+  - name: prices
+    description: Quản lý dữ liệu giá đồ uống
+
+paths:
+
+  /api/prices:
+    get:
+      tags: [prices]
+      summary: Lấy danh sách tất cả giá
+      description: >
+        Trả về toàn bộ bản ghi trong bảng prices, sắp xếp theo ngày giảm dần.
+        Hỗ trợ tìm kiếm theo tên món qua query parameter `q`.
+      parameters:
+        - name: q
+          in: query
+          required: false
+          description: Từ khóa tìm kiếm theo tên món (item_name LIKE %q%)
+          schema:
+            type: string
+            example: 珍珠奶茶
+      responses:
+        '200':
+          description: Danh sách bản ghi giá
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PriceRecord'
+              examples:
+                all:
+                  summary: Tất cả bản ghi
+                  value:
+                    - id: 2
+                      date: "2024-07-26"
+                      item_name: 珍珠奶茶
+                      price: 55
+                    - id: 1
+                      date: "2024-01-15"
+                      item_name: 珍珠奶茶
+                      price: 50
+                filtered:
+                  summary: Kết quả sau khi lọc với q=珍珠
+                  value:
+                    - id: 2
+                      date: "2024-07-26"
+                      item_name: 珍珠奶茶
+                      price: 55
+        '500':
+          description: Lỗi database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorJson'
+
+  /api/insert:
+    post:
+      tags: [prices]
+      summary: Thêm bản ghi giá mới
+      description: Thêm một bản ghi mới vào bảng prices với ngày, tên món và giá.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriceInput'
+            example:
+              date: "2024-09-01"
+              item_name: 珍珠奶茶
+              price: 60
+      responses:
+        '200':
+          description: Thêm thành công, trả về plain text
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "新增成功！已新增「珍珠奶茶」，價格 NT$60，日期 2024-09-01"
+        '400':
+          description: Thiếu trường bắt buộc
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "新增失敗：請填寫完整的日期、商品名稱和價格！"
+        '500':
+          description: Lỗi database
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /api/prices/{id}:
+    delete:
+      tags: [prices]
+      summary: Xóa một bản ghi theo ID
+      description: Xóa bản ghi có id tương ứng khỏi bảng prices.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của bản ghi cần xóa
+          schema:
+            type: integer
+            example: 5
+      responses:
+        '200':
+          description: Xóa thành công, trả về plain text
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: "已成功刪除 1 筆資料"
+        '500':
+          description: Lỗi database
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  schemas:
+    PriceRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Khóa chính tự tăng
+          example: 1
+        date:
+          type: string
+          format: date
+          description: Ngày ghi nhận giá (YYYY-MM-DD)
+          example: "2024-07-26"
+        item_name:
+          type: string
+          description: Tên món đồ uống
+          example: 珍珠奶茶
+        price:
+          type: number
+          description: Giá (đơn vị NT$)
+          example: 55
+
+    PriceInput:
+      type: object
+      required: [date, item_name, price]
+      properties:
+        date:
+          type: string
+          format: date
+          description: Ngày ghi nhận giá (YYYY-MM-DD)
+          example: "2024-09-01"
+        item_name:
+          type: string
+          description: Tên món đồ uống
+          example: 珍珠奶茶
+        price:
+          type: number
+          description: Giá (đơn vị NT$)
+          example: 60
+
+    ErrorJson:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "SQLITE_ERROR: no such table"
