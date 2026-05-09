@@ -3,21 +3,21 @@ const path = require("path");
 const fs = require("fs");
 
 // 確認 db 資料夾存在，若不存在就新增
-// (Đảm bảo thư mục db tồn tại, nếu không thì tạo mới)
+// (Ensure the db directory exists, create it if not)
 const dbDir = path.join(__dirname, "db");
 if (!fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir, { recursive: true });
     console.log("已建立 db 資料夾");
 }
 
-// (Mở database tại db/chingshin.db, xác nhận mở thành công)
+// (Open database at db/chingshin.db, confirm successful connection)
 const dbPath = path.join(__dirname, "db", "chingshin.db");
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
-        console.error("無法開啟資料庫 (Không thể mở database):", err.message);
+        console.error("無法開啟資料庫 (Cannot open database):", err.message);
         return;
     }
-    console.log("成功連線到 SQLite 資料庫 (Kết nối SQLite thành công):", dbPath);
+    console.log("成功連線到 SQLite 資料庫 (Connected to SQLite successfully):", dbPath);
 
     // 使用 serialize 確保 SQL 按順序執行
     db.serialize(() => {
@@ -30,9 +30,9 @@ const db = new sqlite3.Database(dbPath, (err) => {
             price REAL NOT NULL
         )`, (err) => {
             if (err) {
-                console.error("建立 table 失敗 (Tạo bảng thất bại):", err.message);
+                console.error("建立 table 失敗 (Failed to create table):", err.message);
             } else {
-                console.log("prices table 已確認存在 (Bảng prices đã sẵn sàng)");
+                console.log("prices table 已確認存在 (prices table is ready)");
             }
         });
 

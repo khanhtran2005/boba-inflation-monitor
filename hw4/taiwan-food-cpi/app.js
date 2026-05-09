@@ -13,20 +13,20 @@ app.use(express.static(path.join(__dirname, "public")));
 // ============================================================
 // 使用 sqlite3 來操作資料庫，並開啟位置在 db/sqlite.db 的資料庫
 // 不要用匯入 db.js 的方式
-// (Mở DB trực tiếp tại db/sqlite.db, không import db.js)
+// (Open DB directly at db/chingshin.db, do not import db.js)
 // ============================================================
 const dbPath = path.join(__dirname, "db", "chingshin.db");
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
-        console.error("無法開啟資料庫 (Không thể mở database):", err.message);
+        console.error("無法開啟資料庫 (Cannot open database):", err.message);
     } else {
-        console.log("成功連線到 SQLite 資料庫 (Kết nối DB thành công):", dbPath);
+        console.log("成功連線到 SQLite 資料庫 (Connected to DB successfully):", dbPath);
     }
 });
 
 // ============================================================
 // GET /api/prices - 查詢 prices table 所有資料，回傳 json
-// (Truy vấn tất cả dữ liệu từ bảng prices, trả về JSON)
+// (Query all data from the prices table, return JSON)
 // ============================================================
 app.get("/api/prices", (req, res) => {
     const keyword = req.query.q || "";
@@ -52,7 +52,7 @@ app.get("/api/prices", (req, res) => {
 // ============================================================
 // POST /api/insert - 新增一筆物價資料 (date, item_name, price)
 // 回傳文字的訊息，不要 json
-// (Thêm 1 bản ghi giá mới, trả về plain text, không phải JSON)
+// (Insert a new price record, return plain text, not JSON)
 // ============================================================
 app.post("/api/insert", (req, res) => {
     const { date, item_name, price } = req.body;
@@ -85,5 +85,5 @@ app.delete("/api/prices/:id", (req, res) => {
 
 // 啟動伺服器 (Khởi động server)
 app.listen(PORT, () => {
-    console.log("伺服器運行於 (Server đang chạy tại): http://localhost:" + PORT);
+    console.log("伺服器運行於 (Server running at): http://localhost:" + PORT);
 });
