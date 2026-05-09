@@ -2,8 +2,8 @@ openapi: 3.0.3
 info:
   title: 清心福全通膨觀測站 API
   description: >
-    Web API để theo dõi biến động giá đồ uống của chuỗi cửa hàng trà sữa 清心福全 (Chingshin).
-    Backend sử dụng Express.js, lưu trữ dữ liệu bằng SQLite.
+    Web API for tracking drink price changes at the 清心福全 (Chingshin) bubble tea chain.
+    Backend uses Express.js with SQLite for data storage.
   version: 1.0.0
 
 servers:
@@ -12,28 +12,28 @@ servers:
 
 tags:
   - name: prices
-    description: Quản lý dữ liệu giá đồ uống
+    description: Manage drink price records
 
 paths:
 
   /api/prices:
     get:
       tags: [prices]
-      summary: Lấy danh sách tất cả giá
+      summary: Get all price records
       description: >
-        Trả về toàn bộ bản ghi trong bảng prices, sắp xếp theo ngày giảm dần.
-        Hỗ trợ tìm kiếm theo tên món qua query parameter `q`.
+        Returns all records from the prices table, sorted by date descending.
+        Supports filtering by drink name via the query parameter `q`.
       parameters:
         - name: q
           in: query
           required: false
-          description: Từ khóa tìm kiếm theo tên món (item_name LIKE %q%)
+          description: Search keyword for drink name (item_name LIKE %q%)
           schema:
             type: string
             example: 珍珠奶茶
       responses:
         '200':
-          description: Danh sách bản ghi giá
+          description: List of price records
           content:
             application/json:
               schema:
@@ -42,7 +42,7 @@ paths:
                   $ref: '#/components/schemas/PriceRecord'
               examples:
                 all:
-                  summary: Tất cả bản ghi
+                  summary: All records
                   value:
                     - id: 2
                       date: "2024-07-26"
@@ -53,14 +53,14 @@ paths:
                       item_name: 珍珠奶茶
                       price: 50
                 filtered:
-                  summary: Kết quả sau khi lọc với q=珍珠
+                  summary: Filtered result with q=珍珠
                   value:
                     - id: 2
                       date: "2024-07-26"
                       item_name: 珍珠奶茶
                       price: 55
         '500':
-          description: Lỗi database
+          description: Database error
           content:
             application/json:
               schema:
@@ -69,8 +69,8 @@ paths:
   /api/insert:
     post:
       tags: [prices]
-      summary: Thêm bản ghi giá mới
-      description: Thêm một bản ghi mới vào bảng prices với ngày, tên món và giá.
+      summary: Add a new price record
+      description: Inserts a new record into the prices table with date, drink name, and price.
       requestBody:
         required: true
         content:
@@ -83,21 +83,21 @@ paths:
               price: 60
       responses:
         '200':
-          description: Thêm thành công, trả về plain text
+          description: Record added successfully, returns plain text
           content:
             text/plain:
               schema:
                 type: string
               example: "新增成功！已新增「珍珠奶茶」，價格 NT$60，日期 2024-09-01"
         '400':
-          description: Thiếu trường bắt buộc
+          description: Missing required fields
           content:
             text/plain:
               schema:
                 type: string
               example: "新增失敗：請填寫完整的日期、商品名稱和價格！"
         '500':
-          description: Lỗi database
+          description: Database error
           content:
             text/plain:
               schema:
@@ -106,26 +106,26 @@ paths:
   /api/prices/{id}:
     delete:
       tags: [prices]
-      summary: Xóa một bản ghi theo ID
-      description: Xóa bản ghi có id tương ứng khỏi bảng prices.
+      summary: Delete a record by ID
+      description: Deletes the record with the given ID from the prices table.
       parameters:
         - name: id
           in: path
           required: true
-          description: ID của bản ghi cần xóa
+          description: ID of the record to delete
           schema:
             type: integer
             example: 5
       responses:
         '200':
-          description: Xóa thành công, trả về plain text
+          description: Record deleted successfully, returns plain text
           content:
             text/plain:
               schema:
                 type: string
               example: "已成功刪除 1 筆資料"
         '500':
-          description: Lỗi database
+          description: Database error
           content:
             text/plain:
               schema:
@@ -138,20 +138,20 @@ components:
       properties:
         id:
           type: integer
-          description: Khóa chính tự tăng
+          description: Auto-increment primary key
           example: 1
         date:
           type: string
           format: date
-          description: Ngày ghi nhận giá (YYYY-MM-DD)
+          description: Date the price was recorded (YYYY-MM-DD)
           example: "2024-07-26"
         item_name:
           type: string
-          description: Tên món đồ uống
+          description: Drink name
           example: 珍珠奶茶
         price:
           type: number
-          description: Giá (đơn vị NT$)
+          description: Price in NT$
           example: 55
 
     PriceInput:
@@ -161,15 +161,15 @@ components:
         date:
           type: string
           format: date
-          description: Ngày ghi nhận giá (YYYY-MM-DD)
+          description: Date the price was recorded (YYYY-MM-DD)
           example: "2024-09-01"
         item_name:
           type: string
-          description: Tên món đồ uống
+          description: Drink name
           example: 珍珠奶茶
         price:
           type: number
-          description: Giá (đơn vị NT$)
+          description: Price in NT$
           example: 60
 
     ErrorJson:
